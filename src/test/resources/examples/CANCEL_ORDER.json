@@ -1,0 +1,17 @@
+{
+  "receive": {
+    "topic": "cancel-order",
+    "payload": {
+      "id": 1
+    }
+  },
+  "send" : [
+    {
+      "topic": "process-cancellation",
+      "payload": {
+        "reference": 1,
+        "status": "COMPLETED"
+      }
+    }
+  ]
+}

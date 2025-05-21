@@ -1,0 +1,84 @@
+asyncapi: 3.0.0
+info:
+  title: Order API
+  version: 1.0.0
+channels:
+  place-order:
+    address: place-order
+    messages:
+      placeOrder.message:
+        $ref: '#/components/messages/OrderRequest'
+  process-order:
+    address: process-order
+    messages:
+      processOrder.message:
+        $ref: '#/components/messages/Order'
+  cancel-order:
+    address: cancel-order
+    messages:
+      cancelOrder.message:
+        $ref: '#/components/messages/CancelOrderRequest'
+  process-cancellation:
+    address: process-cancellation
+    messages:
+      processCancellation.message:
+        $ref: '#/components/messages/CancellationReference'
+operations:
+  placeOrder:
+    action: receive
+    channel:
+      $ref: '#/channels/place-order'
+    messages:
+      - $ref: '#/channels/place-order/messages/placeOrder.message'
+    reply:
+      channel:
+        $ref: '#/channels/process-order'
+      messages:
+        - $ref: '#/channels/process-order/messages/processOrder.message'
+  cancelOrder:
+    action: receive
+    channel:
+      $ref: '#/channels/cancel-order'
+    messages:
+      - $ref: '#/channels/cancel-order/messages/cancelOrder.message'
+    reply:
+      channel:
+        $ref: '#/channels/process-cancellation'
+      messages:
+        - $ref: '#/channels/process-cancellation/messages/processCancellation.message'
+components:
+  messages:
+    OrderRequest:
+      name: OrderRequest
+      title: An order request
+      payload:
+        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schema:
+          $ref: '../src/main/avro/PlaceOrder.avsc'
+
+    Order:
+      name: OrderToProcess
+      title: An order that needs to be processed
+      payload:
+        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schema:
+          $ref: '../src/main/avro/ProcessOrder.avsc'
+
+    CancelOrderRequest:
+      name: CancelOrderRequest
+      title: A cancel order request
+      contentType: application/json
+      payload:
+        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schema:
+          $ref: '../src/main/avro/CancelOrder.avsc'
+
+    CancellationReference:
+      name: CancellationReference
+      title: A cancellation reference in response to a cancel order request
+      contentType: application/json
+      payload:
+        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schema:
+          $ref: '../src/main/avro/ProcessCancellation.avsc'
+
