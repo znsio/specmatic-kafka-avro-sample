@@ -16,9 +16,6 @@ repositories {
         url uri("lib")
     }
     maven {
-        url uri("/Users/yogeshanandanikam/project/specmatic-kafka/build/mvn-repo")
-    }
-    maven {
         url "https://packages.confluent.io/maven/"
     }
     mavenCentral()
@@ -38,7 +35,7 @@ dependencies {
     implementation("io.confluent:kafka-schema-registry-client:7.8.0")
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
-    testImplementation("io.specmatic.kafka:specmatic-kafka:0.32.4-SNAPSHOT")
+    testImplementation("io.specmatic.kafka:specmatic-kafka:0.32.4")
     testImplementation("org.testcontainers:testcontainers:1.19.3")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

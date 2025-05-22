@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.specmatic.kafka</groupId>
   <artifactId>specmatic-kafka</artifactId>
-  <version>0.32.2</version>
+  <version>0.32.4</version>
   <name>Specmatic-Kafka</name>
   <description>Specmatic-Kafka library</description>
   <url>https://specmatic.io</url>
@@ -59,7 +59,7 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
-      <version>2.13.1</version>
+      <version>2.14.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -71,7 +71,7 @@
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
-      <version>4.7.6</version>
+      <version>4.7.7</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
