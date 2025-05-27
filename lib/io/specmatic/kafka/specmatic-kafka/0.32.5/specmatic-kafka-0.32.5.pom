@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.specmatic.kafka</groupId>
   <artifactId>specmatic-kafka</artifactId>
-  <version>0.32.4</version>
+  <version>0.32.5</version>
   <name>Specmatic-Kafka</name>
   <description>Specmatic-Kafka library</description>
   <url>https://specmatic.io</url>
@@ -113,6 +113,12 @@
     <dependency>
       <groupId>io.ktor</groupId>
       <artifactId>ktor-client-core</artifactId>
+      <version>2.3.13</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.ktor</groupId>
+      <artifactId>ktor-client-cio</artifactId>
       <version>2.3.13</version>
       <scope>compile</scope>
     </dependency>
