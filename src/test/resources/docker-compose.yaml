@@ -45,15 +45,21 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://broker:9093
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
-      SCHEMA_REGISTRY_AUTO_REGISTER_SCHEMAS: false
+      SCHEMA_REGISTRY_AUTO_REGISTER_SCHEMAS: true
     volumes:
-      - ./src/main/avro:/usr/src/app/schemas
+      - ../../main/avro:/usr/src/app/schemas
 
-#  register-schema:
-#    build:
-#      context: .
-#      dockerfile: registerSchemaDockerfile
-#    depends_on:
-#      - schema-registry
-#    environment:
-#      SCHEMA_REGISTRY_URL: http://schema-registry:8085
+  register-schemas:
+    image: curlimages/curl:8.13.0
+    depends_on:
+      - schema-registry
+    user: root
+    entrypoint: sh
+    command:
+      - -c
+      - |
+        apk add --no-cache jq && \
+        chmod +x /usr/src/app/schemas/register-schemas.sh && \
+        sh -c /usr/src/app/schemas/register-schemas.sh
+    volumes:
+      - ../../main/avro:/usr/src/app/schemas

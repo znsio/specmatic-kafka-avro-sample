@@ -36,9 +36,9 @@ class ContractTest: SpecmaticKafkaContractTest {
         return DockerComposeContainer(
             File("src/test/resources/docker-compose.yaml")
         ).withLocalCompose(true).waitingFor(
-            "schema-registry",
+            "register-schemas",
             LogMessageWaitStrategy()
-                .withRegEx(".*(?i)server started, listening for requests.*")
+                .withRegEx(".*(?i)Schemas registered.*")
                 .withStartupTimeout(Duration.ofSeconds(60))
         )
     }
