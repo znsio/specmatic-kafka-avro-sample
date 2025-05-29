@@ -14,7 +14,7 @@ import java.time.Duration
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ContractTest: SpecmaticKafkaContractTest {
-    @Value("\${schema.registry.url}")
+    @Value("\${spring.kafka.properties.schema.registry.url}")
     lateinit var schemaRegistryUrl: String
 
     private val schemaRegistry = schemaRegistry()

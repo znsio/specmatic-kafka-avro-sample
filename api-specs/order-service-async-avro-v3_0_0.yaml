@@ -52,33 +52,33 @@ components:
       name: OrderRequest
       title: An order request
       payload:
-        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: 'http://localhost:8085/subjects/place-order-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/place-order-value/versions/1/schema'
 
     Order:
       name: OrderToProcess
       title: An order that needs to be processed
       payload:
-        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: 'http://localhost:8085/subjects/process-order-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/process-order-value/versions/1/schema'
 
     CancelOrderRequest:
       name: CancelOrderRequest
       title: A cancel order request
       contentType: application/json
       payload:
-        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: 'http://localhost:8085/subjects/cancel-order-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/cancel-order-value/versions/1/schema'
 
     CancellationReference:
       name: CancellationReference
       title: A cancellation reference in response to a cancel order request
       contentType: application/json
       payload:
-        schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+        schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: 'http://localhost:8085/subjects/process-cancellation-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/process-cancellation-value/versions/1/schema'
 
