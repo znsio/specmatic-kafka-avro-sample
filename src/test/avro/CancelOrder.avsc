@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "CancelOrderRequest",
+  "namespace": "order",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "record",
+  "name": "CancellationReference",
+  "namespace": "order",
+  "fields": [
+    {
+      "name": "reference",
+      "type": "int"
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "CancellationStatus",
+        "symbols": ["COMPLETED", "FAILED"]
+      }
+    }
+  ]
+}

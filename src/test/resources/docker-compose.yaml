@@ -46,8 +46,6 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://broker:9093
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
       SCHEMA_REGISTRY_AUTO_REGISTER_SCHEMAS: true
-    volumes:
-      - ../../main/avro:/usr/src/app/schemas
 
   register-schemas:
     image: curlimages/curl:8.13.0
@@ -62,4 +60,4 @@ services:
         chmod +x /usr/src/app/schemas/register-schemas.sh && \
         sh -c /usr/src/app/schemas/register-schemas.sh
     volumes:
-      - ../../main/avro:/usr/src/app/schemas
+      - ../avro:/usr/src/app/schemas
