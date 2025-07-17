@@ -1,6 +1,6 @@
 {
   "receive": {
-    "topic": "place-order",
+    "topic": "new-orders",
     "payload": {
       "id": 1,
       "orderItems": [
@@ -15,7 +15,7 @@
   },
   "send" : [
     {
-      "topic": "process-order",
+      "topic": "wip-orders",
       "payload": {
         "id": 1,
         "status": "PROCESSING"

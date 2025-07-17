@@ -3,23 +3,23 @@ info:
   title: Order API
   version: 1.0.0
 channels:
-  place-order:
-    address: place-order
+  new-orders:
+    address: new-orders
     messages:
       placeOrder.message:
         $ref: '#/components/messages/OrderRequest'
-  process-order:
-    address: process-order
+  wip-orders:
+    address: wip-orders
     messages:
       processOrder.message:
         $ref: '#/components/messages/Order'
-  cancel-order:
-    address: cancel-order
+  orders-to-cancel:
+    address: orders-to-cancel
     messages:
       cancelOrder.message:
         $ref: '#/components/messages/CancelOrderRequest'
-  process-cancellation:
-    address: process-cancellation
+  cancelled-orders:
+    address: cancelled-orders
     messages:
       processCancellation.message:
         $ref: '#/components/messages/CancellationReference'
@@ -27,25 +27,25 @@ operations:
   placeOrder:
     action: receive
     channel:
-      $ref: '#/channels/place-order'
+      $ref: '#/channels/new-orders'
     messages:
-      - $ref: '#/channels/place-order/messages/placeOrder.message'
+      - $ref: '#/channels/new-orders/messages/placeOrder.message'
     reply:
       channel:
-        $ref: '#/channels/process-order'
+        $ref: '#/channels/wip-orders'
       messages:
-        - $ref: '#/channels/process-order/messages/processOrder.message'
+        - $ref: '#/channels/wip-orders/messages/processOrder.message'
   cancelOrder:
     action: receive
     channel:
-      $ref: '#/channels/cancel-order'
+      $ref: '#/channels/orders-to-cancel'
     messages:
-      - $ref: '#/channels/cancel-order/messages/cancelOrder.message'
+      - $ref: '#/channels/orders-to-cancel/messages/cancelOrder.message'
     reply:
       channel:
-        $ref: '#/channels/process-cancellation'
+        $ref: '#/channels/cancelled-orders'
       messages:
-        - $ref: '#/channels/process-cancellation/messages/processCancellation.message'
+        - $ref: '#/channels/cancelled-orders/messages/processCancellation.message'
 components:
   messages:
     OrderRequest:
@@ -54,7 +54,7 @@ components:
       payload:
         schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: '<SCHEMA_REGISTRY_URL>/subjects/place-order-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/new-orders-value/versions/1/schema'
 
     Order:
       name: OrderToProcess
@@ -62,7 +62,7 @@ components:
       payload:
         schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: '<SCHEMA_REGISTRY_URL>/subjects/process-order-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/wip-orders-value/versions/1/schema'
 
     CancelOrderRequest:
       name: CancelOrderRequest
@@ -71,7 +71,7 @@ components:
       payload:
         schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: '<SCHEMA_REGISTRY_URL>/subjects/cancel-order-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/orders-to-cancel-value/versions/1/schema'
 
     CancellationReference:
       name: CancellationReference
@@ -80,5 +80,5 @@ components:
       payload:
         schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
-          $ref: '<SCHEMA_REGISTRY_URL>/subjects/process-cancellation-value/versions/1/schema'
+          $ref: '<SCHEMA_REGISTRY_URL>/subjects/cancelled-orders-value/versions/1/schema'
 
