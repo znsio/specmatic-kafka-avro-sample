@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class OrderService(
-    private val processOrderKafkaTemplate: KafkaTemplate<String, OrderToProcess>,
-    private val cancelOrderKafkaTemplate: KafkaTemplate<String, CancellationReference>
+    private val wipOrdersKafkaTemplate: KafkaTemplate<String, OrderToProcess>,
+    private val ordersToCancelKafkaTemplate: KafkaTemplate<String, CancellationReference>
 ) {
     companion object {
-        private const val PLACE_ORDER_TOPIC = "place-order"
-        private const val PROCESS_ORDER_TOPIC = "process-order"
-        private const val CANCEL_ORDER_TOPIC = "cancel-order"
-        private const val PROCESS_CANCELLATION_TOPIC = "process-cancellation"
+        private const val NEW_ORDERS_TOPIC = "new-orders"
+        private const val WIP_ORDERS_TOPIC = "wip-orders"
+        private const val ORDERS_TO_CANCEL_TOPIC = "orders-to-cancel"
+        private const val CANCELLED_ORDERS_TOPIC = "cancelled-orders"
     }
 
     private val serviceName = this::class.simpleName
@@ -29,20 +29,20 @@ class OrderService(
         println("$serviceName started running..")
     }
 
-    @KafkaListener(topics = [PLACE_ORDER_TOPIC])
+    @KafkaListener(topics = [NEW_ORDERS_TOPIC])
     fun placeOrder(record: ConsumerRecord<String, OrderRequest>) {
         val orderRequest = record.value()
-        println("[$serviceName] Received message on topic $PLACE_ORDER_TOPIC - $orderRequest")
+        println("[$serviceName] Received message on topic $NEW_ORDERS_TOPIC - $orderRequest")
 
         val orderToProcess = OrderToProcess.newBuilder()
             .setId(orderRequest.id)
             .setStatus(OrderStatus.PROCESSING)
             .build()
-        processOrderKafkaTemplate.send(PROCESS_ORDER_TOPIC, orderToProcess)
-        println("[$serviceName] Sent message to topic $PROCESS_ORDER_TOPIC - $orderToProcess")
+        wipOrdersKafkaTemplate.send(WIP_ORDERS_TOPIC, orderToProcess)
+        println("[$serviceName] Sent message to topic $WIP_ORDERS_TOPIC - $orderToProcess")
     }
 
-    @KafkaListener(topics = [CANCEL_ORDER_TOPIC])
+    @KafkaListener(topics = [ORDERS_TO_CANCEL_TOPIC])
     fun cancelOrder(record: ConsumerRecord<String, CancelOrderRequest>) {
         val cancelOrderRequest = record.value()
 
@@ -51,7 +51,7 @@ class OrderService(
             .setStatus(CancellationStatus.COMPLETED)
             .build()
 
-        cancelOrderKafkaTemplate.send(PROCESS_CANCELLATION_TOPIC, cancellationReference)
-        println("[$serviceName] Sent message to topic $PROCESS_CANCELLATION_TOPIC - $cancellationReference")
+        ordersToCancelKafkaTemplate.send(CANCELLED_ORDERS_TOPIC, cancellationReference)
+        println("[$serviceName] Sent message to topic $CANCELLED_ORDERS_TOPIC - $cancellationReference")
     }
 }
