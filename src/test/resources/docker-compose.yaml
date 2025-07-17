@@ -34,6 +34,14 @@ services:
     depends_on:
       - zookeeper
 
+  kafka-init:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - broker
+    volumes:
+      - ./create-topics.sh:/create-topics.sh
+    entrypoint: [ "sh", "/create-topics.sh" ]
+
   schema-registry:
     image: confluentinc/cp-schema-registry:7.2.1
     hostname: schema-registry

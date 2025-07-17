@@ -1,6 +1,13 @@
 package com.example.order
 
-import io.specmatic.kafka.SpecmaticKafkaContractTest
+import io.specmatic.async.core.constants.AVAILABLE_PROTOCOLS
+import io.specmatic.async.core.constants.AVAILABLE_SERVERS
+import io.specmatic.async.core.constants.EXAMPLES_DIR
+import io.specmatic.async.core.constants.SCHEMA_REGISTRY_KIND
+import io.specmatic.async.core.constants.SCHEMA_REGISTRY_URL
+import io.specmatic.async.core.constants.SchemaRegistryKind
+import io.specmatic.kafka.constants.KAFKA_PROTOCOL
+import io.specmatic.kafka.test.SpecmaticKafkaContractTest
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
@@ -22,9 +29,10 @@ class ContractTest: SpecmaticKafkaContractTest {
     @BeforeAll
     fun setup() {
         schemaRegistry.start()
-        System.setProperty("SCHEMA_REGISTRY_URL", schemaRegistryUrl)
-        System.setProperty("CONSUMER_GROUP_ID", "order-consumer-group-id")
-        System.setProperty("EXAMPLES_DIR", "src/test/resources")
+        System.setProperty(SCHEMA_REGISTRY_URL, schemaRegistryUrl)
+        System.setProperty(SCHEMA_REGISTRY_KIND, SchemaRegistryKind.CONFLUENT.name)
+        System.setProperty(AVAILABLE_SERVERS, "localhost:9092")
+        System.setProperty(EXAMPLES_DIR, "src/test/resources")
     }
 
     @AfterAll
