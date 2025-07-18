@@ -1,19 +1,17 @@
 package com.example.order
 
-import io.specmatic.async.core.constants.AVAILABLE_PROTOCOLS
 import io.specmatic.async.core.constants.AVAILABLE_SERVERS
 import io.specmatic.async.core.constants.EXAMPLES_DIR
 import io.specmatic.async.core.constants.SCHEMA_REGISTRY_KIND
 import io.specmatic.async.core.constants.SCHEMA_REGISTRY_URL
 import io.specmatic.async.core.constants.SchemaRegistryKind
-import io.specmatic.kafka.constants.KAFKA_PROTOCOL
 import io.specmatic.kafka.test.SpecmaticKafkaContractTest
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import org.testcontainers.containers.DockerComposeContainer
+import org.testcontainers.containers.ComposeContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
 import java.io.File
 import java.time.Duration
@@ -40,8 +38,8 @@ class ContractTest: SpecmaticKafkaContractTest {
         schemaRegistry.stop()
     }
 
-    private fun schemaRegistry(): DockerComposeContainer<*> {
-        return DockerComposeContainer(
+    private fun schemaRegistry(): ComposeContainer {
+        return ComposeContainer(
             File("src/test/resources/docker-compose.yaml")
         ).withLocalCompose(true).waitingFor(
             "register-schemas",
