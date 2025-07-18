@@ -1,9 +1,6 @@
-version: '3.8'
-
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
     ports:
       - "2181:2181"
     environment:
@@ -15,6 +12,7 @@ services:
   broker:
     image: confluentinc/cp-kafka:latest
     hostname: broker
+    container_name: broker
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -35,9 +33,18 @@ services:
     depends_on:
       - zookeeper
 
+  kafka-init:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - broker
+    volumes:
+      - ./create-topics.sh:/create-topics.sh
+    entrypoint: [ "sh", "/create-topics.sh" ]
+
   schema-registry:
     image: confluentinc/cp-schema-registry:7.2.1
     hostname: schema-registry
+    container_name: schema-registry
     depends_on:
       - broker
     ports:
@@ -46,15 +53,19 @@ services:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://broker:9093
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8085
-      SCHEMA_REGISTRY_AUTO_REGISTER_SCHEMAS: false
-    volumes:
-      - ./src/main/avro:/usr/src/app/schemas
+      SCHEMA_REGISTRY_AUTO_REGISTER_SCHEMAS: true
 
-  register-schema:
-    build:
-      context: .
-      dockerfile: registerSchemaDockerfile
+  register-schemas:
+    image: curlimages/curl:8.13.0
     depends_on:
       - schema-registry
-    environment:
-      SCHEMA_REGISTRY_URL: http://schema-registry:8085
+    user: root
+    entrypoint: sh
+    command:
+      - -c
+      - |
+        apk add --no-cache jq && \
+        chmod +x /usr/src/app/schemas/register-schemas.sh && \
+        sh -c /usr/src/app/schemas/register-schemas.sh
+    volumes:
+      - ./src/test/avro:/usr/src/app/schemas
