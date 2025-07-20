@@ -3,21 +3,21 @@
   <groupId>io.specmatic.async</groupId>
   <artifactId>specmatic-async-core</artifactId>
   <versioning>
-    <lastUpdated>20250718101901</lastUpdated>
+    <lastUpdated>20250720032633</lastUpdated>
     <snapshot>
-      <timestamp>20250718.101901</timestamp>
+      <timestamp>20250720.032633</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>1.0.1-20250718.101901-1</value>
-        <updated>20250718101901</updated>
+        <value>1.0.1-20250720.032633-1</value>
+        <updated>20250720032633</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>1.0.1-20250718.101901-1</value>
-        <updated>20250718101901</updated>
+        <value>1.0.1-20250720.032633-1</value>
+        <updated>20250720032633</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
