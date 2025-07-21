@@ -94,17 +94,30 @@ You can also run the [contract test](src%2Ftest%2Fkotlin%2Fcom%2Fexample%2Forder
 The contract test makes use of `testcontainers` to set up the environment for testing.
 
 #### Test Configuration
-Set these system properties for Specmatic:
-```bash
-SCHEMA_REGISTRY_URL=http://localhost:8081
+The test requires the following properties to be set with the correct values as you can see in the [contract test](src%2Ftest%2Fkotlin%2Fcom%2Fexample%2Forder%2FContractTest.kt).
+```properties
+SCHEMA_REGISTRY_URL=http://localhost:8085
 SCHEMA_REGISTRY_KIND=CONFLUENT
 AVAILABLE_SERVERS=localhost:9092
-EXAMPLES_DIR=src/test/resources/examples
 ```
 
 ### Run Contract Tests using Docker CLI
 
-#### Run tests
+#### Run the application 
+```bash
+# 1. Pull dependencies
+docker compose pull
+
+# 2. Run the dependencies
+docker compose up -d
+
+# 3. Run the application
+./gradlew bootRun
+```
+
+#### Run the contract tests
+Wait for the application to start and then run the following command to execute the contract tests using Specmatic:
+
 ```bash
 docker run --network avro-app-network \
        -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" \
