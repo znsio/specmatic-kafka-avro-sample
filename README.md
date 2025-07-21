@@ -129,7 +129,10 @@ docker run --network avro-app-network \
        --schema-registry-kind=CONFLUENT
 ```
 
-#### Stop the containers
+#### Stop the application
+Stop the application by stopping the `./gradle bootRun` process using Ctrl + C
+
+#### Stop the containers 
 ```bash
 docker compose down -v
 ```
