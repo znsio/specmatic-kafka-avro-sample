@@ -1,6 +1,6 @@
 # Contract Testing with AsyncAPI & Avro Schema Registry
 
-> **Production-ready contract testing for event-driven microservices using AsyncAPI specifications and Avro schemas**
+> **Leveraging your Avro schema files by referencing them from AsyncAPI spec to test your event-driven microservices**
 
 ## Overview
 
@@ -10,14 +10,18 @@ This sample demonstrates **contract-first development** for asynchronous microse
 
 ![Architecture Diagram](avro-sample-architecture.png)
 
+#### TODO: AsyncAPI spec in middle with reference to schema registry, need a test architecturre diagram also
+
 The application demonstrates a typical order processing flow between `checkout-service` and `order-service` communicating through Kafka topics with Avro serialization.
 
-## Key Value Propositions
+## Key Benefits 
+
+#### TODO: Maybe push this to the end or remove it altogether, we need to get to running tests quickly after orienting users or architecture
 
 ### 🎯 Contract-First Development
-- **AsyncAPI 3.0 specification** defines the contract upfront
-- **Schema Registry integration** ensures runtime consistency
-- **Automated contract testing** validates service interactions
+- **AsyncAPI 3.0 specification** captures the API contract in an unambiguous mutually understood industry standard format
+- **Schema Registry integration** ensures that provider, consumer teams and everyone involved are referring to single source of truth
+- **Automated contract testing** ensure service implementations adhere to API contract
 
 ### 🔄 Schema Evolution Management
 - **Avro schemas** provide backward compatibility
@@ -31,7 +35,7 @@ The application demonstrates a typical order processing flow between `checkout-s
 
 ## AsyncAPI Specification Highlights
 
-### Multi-Format Schema Integration
+### Referencing your existing Avro files your schema registry in AsyncAPI spec
 
 The AsyncAPI specification that this application is based on reuses the Avro schemas by referencing them instead of redefining them again. 
 This ensures that we have a single source of truth for the schemas which is the schemas present in the schema registry.
