@@ -104,6 +104,17 @@ EXAMPLES_DIR=src/test/resources/examples
 
 ### Run Contract Tests using Docker CLI
 
+#### Run tests
+```bash
+docker run --network avro-app-network \
+       -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" \
+       -v "$PWD/api-specs:/usr/src/app/api-specs" \
+       --rm specmatic/specmatic-kafka test \
+       --broker=broker:9093 \
+       --schema-registry-url=http://schema-registry:8085 \
+       --schema-registry-kind=CONFLUENT
+```
+
 ## Business Impact
 
 ### Development Benefits

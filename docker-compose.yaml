@@ -1,6 +1,8 @@
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    networks:
+      - avro-app-network
     ports:
       - "2181:2181"
     environment:
@@ -13,6 +15,8 @@ services:
     image: confluentinc/cp-kafka:latest
     hostname: broker
     container_name: broker
+    networks:
+      - avro-app-network
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -37,6 +41,8 @@ services:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - broker
+    networks:
+      - avro-app-network
     volumes:
       - ./create-topics.sh:/create-topics.sh
     entrypoint: [ "sh", "/create-topics.sh" ]
@@ -47,6 +53,8 @@ services:
     container_name: schema-registry
     depends_on:
       - broker
+    networks:
+      - avro-app-network
     ports:
       - "8085:8085"
     environment:
@@ -59,6 +67,8 @@ services:
     image: curlimages/curl:8.13.0
     depends_on:
       - schema-registry
+    networks:
+      - avro-app-network
     user: root
     entrypoint: sh
     command:
@@ -69,3 +79,8 @@ services:
         sh -c /usr/src/app/schemas/register-schemas.sh
     volumes:
       - ./src/test/avro:/usr/src/app/schemas
+
+networks:
+  avro-app-network:
+    name: avro-app-network
+    driver: bridge

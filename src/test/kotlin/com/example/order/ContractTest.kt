@@ -30,7 +30,6 @@ class ContractTest: SpecmaticKafkaContractTest {
         System.setProperty(SCHEMA_REGISTRY_URL, schemaRegistryUrl)
         System.setProperty(SCHEMA_REGISTRY_KIND, SchemaRegistryKind.CONFLUENT.name)
         System.setProperty(AVAILABLE_SERVERS, "localhost:9092")
-        System.setProperty(EXAMPLES_DIR, "src/test/resources")
     }
 
     @AfterAll
@@ -40,7 +39,7 @@ class ContractTest: SpecmaticKafkaContractTest {
 
     private fun schemaRegistry(): ComposeContainer {
         return ComposeContainer(
-            File("src/test/resources/docker-compose.yaml")
+            File("docker-compose.yaml")
         ).withLocalCompose(true).waitingFor(
             "register-schemas",
             LogMessageWaitStrategy()
