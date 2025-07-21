@@ -122,7 +122,8 @@ Wait for the application to start and then run the following command to execute 
 docker run --network avro-app-network \
        -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" \
        -v "$PWD/api-specs:/usr/src/app/api-specs" \
-       --rm specmatic/specmatic-kafka test \
+       -v "$PWD/build:/usr/src/app/build" \
+       --rm specmatic/specmatic-kafka:1.0.1 test \
        --broker=broker:9093 \
        --schema-registry-url=http://schema-registry:8085 \
        --schema-registry-kind=CONFLUENT
