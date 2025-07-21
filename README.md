@@ -128,6 +128,11 @@ docker run --network avro-app-network \
        --schema-registry-kind=CONFLUENT
 ```
 
+#### Stop the containers
+```bash
+docker compose down -v
+```
+
 ## Business Impact
 
 ### Development Benefits

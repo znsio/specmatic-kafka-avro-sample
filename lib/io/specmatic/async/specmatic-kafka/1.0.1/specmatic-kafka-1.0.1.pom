@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.specmatic.async</groupId>
   <artifactId>specmatic-kafka</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>Specmatic Async API support for Kafka</name>
   <description>Specmatic Async API support for Kafka</description>
   <url>https://specmatic.io</url>
@@ -47,7 +47,7 @@
     <dependency>
       <groupId>io.specmatic.async</groupId>
       <artifactId>specmatic-async-core</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>1.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

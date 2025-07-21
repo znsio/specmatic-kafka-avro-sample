@@ -22,6 +22,9 @@ class ContractTest: SpecmaticKafkaContractTest {
     @Value("\${spring.kafka.properties.schema.registry.url}")
     lateinit var schemaRegistryUrl: String
 
+    @Value("\${spring.kafka.bootstrap-servers}")
+    lateinit var kafkaBootstrapServers: String
+
     private val schemaRegistry = schemaRegistry()
 
     @BeforeAll
@@ -29,7 +32,7 @@ class ContractTest: SpecmaticKafkaContractTest {
         schemaRegistry.start()
         System.setProperty(SCHEMA_REGISTRY_URL, schemaRegistryUrl)
         System.setProperty(SCHEMA_REGISTRY_KIND, SchemaRegistryKind.CONFLUENT.name)
-        System.setProperty(AVAILABLE_SERVERS, "localhost:9092")
+        System.setProperty(AVAILABLE_SERVERS, kafkaBootstrapServers)
     }
 
     @AfterAll
@@ -38,14 +41,18 @@ class ContractTest: SpecmaticKafkaContractTest {
     }
 
     private fun schemaRegistry(): ComposeContainer {
-        return ComposeContainer(
-            File("docker-compose.yaml")
-        ).withLocalCompose(true).waitingFor(
-            "register-schemas",
-            LogMessageWaitStrategy()
-                .withRegEx(".*(?i)Schemas registered.*")
-                .withStartupTimeout(Duration.ofSeconds(60))
-        )
+        return ComposeContainer(DOCKER_COMPOSE_FILE)
+            .withLocalCompose(true).waitingFor(
+                REGISTER_SCHEMAS_SERVICE,
+                LogMessageWaitStrategy()
+                    .withRegEx(SCHEMA_REGISTERED_REGEX)
+                    .withStartupTimeout(Duration.ofSeconds(60))
+            )
     }
 
+    companion object {
+        private val DOCKER_COMPOSE_FILE = File("docker-compose.yaml")
+        private const val REGISTER_SCHEMAS_SERVICE = "register-schemas"
+        private const val SCHEMA_REGISTERED_REGEX = ".*(?i)schemas registered.*"
+    }
 }
