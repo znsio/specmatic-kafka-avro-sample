@@ -13,16 +13,6 @@ channels:
     messages:
       processOrder.message:
         $ref: '#/components/messages/Order'
-  orders-to-cancel:
-    address: orders-to-cancel
-    messages:
-      cancelOrder.message:
-        $ref: '#/components/messages/CancelOrderRequest'
-  cancelled-orders:
-    address: cancelled-orders
-    messages:
-      processCancellation.message:
-        $ref: '#/components/messages/CancellationReference'
 operations:
   placeOrder:
     action: receive
@@ -35,17 +25,6 @@ operations:
         $ref: '#/channels/wip-orders'
       messages:
         - $ref: '#/channels/wip-orders/messages/processOrder.message'
-  cancelOrder:
-    action: receive
-    channel:
-      $ref: '#/channels/orders-to-cancel'
-    messages:
-      - $ref: '#/channels/orders-to-cancel/messages/cancelOrder.message'
-    reply:
-      channel:
-        $ref: '#/channels/cancelled-orders'
-      messages:
-        - $ref: '#/channels/cancelled-orders/messages/processCancellation.message'
 components:
   messages:
     OrderRequest:
@@ -63,22 +42,4 @@ components:
         schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
         schema:
           $ref: '<SCHEMA_REGISTRY_URL>/subjects/wip-orders-value/versions/1/schema'
-
-    CancelOrderRequest:
-      name: CancelOrderRequest
-      title: A cancel order request
-      contentType: application/json
-      payload:
-        schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
-        schema:
-          $ref: '<SCHEMA_REGISTRY_URL>/subjects/orders-to-cancel-value/versions/1/schema'
-
-    CancellationReference:
-      name: CancellationReference
-      title: A cancellation reference in response to a cancel order request
-      contentType: application/json
-      payload:
-        schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
-        schema:
-          $ref: '<SCHEMA_REGISTRY_URL>/subjects/cancelled-orders-value/versions/1/schema'
 

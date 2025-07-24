@@ -6,39 +6,14 @@
 
 This sample demonstrates **contract-first development** for asynchronous microservices communication. It showcases how to implement reliable contract testing using AsyncAPI specifications with Avro Schema Registry integration.
 
-## Architecture
-
 ![Architecture Diagram](avro-sample-architecture.png)
-
-#### TODO: AsyncAPI spec in middle with reference to schema registry, need a test architecturre diagram also
 
 The application demonstrates a typical order processing flow between `checkout-service` and `order-service` communicating through Kafka topics with Avro serialization.
 
-## Key Benefits 
+## Referencing your existing Avro files your schema registry in AsyncAPI spec
 
-#### TODO: Maybe push this to the end or remove it altogether, we need to get to running tests quickly after orienting users or architecture
-
-### 🎯 Contract-First Development
-- **AsyncAPI 3.0 specification** captures the API contract in an unambiguous mutually understood industry standard format
-- **Schema Registry integration** ensures that provider, consumer teams and everyone involved are referring to single source of truth
-- **Automated contract testing** ensure service implementations adhere to API contract
-
-### 🔄 Schema Evolution Management
-- **Avro schemas** provide backward compatibility
-- **Multi-format schema support** in AsyncAPI specifications
-- **Dynamic schema references** to Schema Registry endpoints
-
-### 🚀 Production Confidence
-- **Automated validation** catches breaking changes early
-- **Type-safe messaging** with generated POJOs
-- **End-to-end testing** with real infrastructure
-
-## AsyncAPI Specification Highlights
-
-### Referencing your existing Avro files your schema registry in AsyncAPI spec
-
-The AsyncAPI specification that this application is based on reuses the Avro schemas by referencing them instead of redefining them again. 
-This ensures that we have a single source of truth for the schemas which is the schemas present in the schema registry.
+The AsyncAPI specification that this application is based on **reuses the Avro schemas by referencing them instead of redefining them again**. 
+This ensures that we have **a single source of truth** for the schemas which is the schemas present in the schema registry.
 
 ```yaml
 components:
@@ -52,38 +27,15 @@ components:
           $ref: 'http://localhost:8085/subjects/new-orders-value/versions/1/schema'
 ```
 
-### Key Benefits:
-- **Live schema references** - Always uses current registry schemas
-- **No schema duplication** - Single source of truth
-- **Runtime validation** - Ensures spec-to-implementation consistency
-
-## Schema Management
-
-### Schema Organization
-```
-src/main/avro/
-├── NewOrders.avsc          # Order creation events
-├── WipOrders.avsc          # Work-in-progress updates
-├── OrdersToCancel.avsc     # Cancellation requests
-└── CancelledOrders.avsc    # Cancellation confirmations
-```
-
-### Registration Process
-Schemas are automatically registered during test setup via `register-schemas.sh` script, ensuring tests run against the actual schema registry.
-
-## Contract Testing Strategy
-
-### What Gets Tested:
-- **Message publishing** to correct topics
-- **Schema compatibility** with registry
-- **Consumer behavior** on message receipt
-- **Error handling** for malformed messages
-
-## Quick Start
+## Contract Testing the application
 
 ### Prerequisites
 - Java 17+
 - Docker & Docker Compose
+
+![Test Architecture Diagram](avro-sample-test-architecture.png)
+
+The `order-service` is the system under test in our case.
 
 ### Run Contract Tests Programmatically
 ```bash
@@ -141,6 +93,26 @@ Stop the application by stopping the `./gradle bootRun` process using Ctrl + C
 docker compose down -v
 ```
 
+### What Gets Tested:
+- **Message publishing** to correct topics
+- **Schema compatibility** with registry
+- **Consumer behavior** on message receipt
+- **Error handling** for malformed messages
+
+## Schema Management
+
+### Schema Organization
+```
+src/main/avro/
+├── NewOrders.avsc          # Order creation events
+├── WipOrders.avsc          # Work-in-progress updates
+├── OrdersToCancel.avsc     # Cancellation requests
+└── CancelledOrders.avsc    # Cancellation confirmations
+```
+
+### Registration Process
+Schemas are automatically registered during test setup via `register-schemas.sh` script, ensuring tests run against the actual schema registry.
+
 ## Business Impact
 
 ### Development Benefits
@@ -164,4 +136,4 @@ Traditional integration testing often misses **contract compatibility issues** t
 
 ---
 
-**Ready to implement contract testing in your microservices?** This sample provides the complete foundation for production-ready contract testing with AsyncAPI and Avro Schema Registry.
+**Ready to implement contract testing in your microservices?** This sample provides the complete foundation for contract testing with AsyncAPI and Avro Schema Registry.
