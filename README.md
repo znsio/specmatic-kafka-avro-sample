@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project demonstrates **contract-driven development** using your Avro schemas for asynchronous microservices communication. It showcases how AsyncAPI specification can be used in conjunction with your Avro schemas to thoroughly contract test your EDA.
+This project demonstrates **contract-driven development** using your Avro schemas for asynchronous microservices communication. It showcases how [AsyncAPI specification](https://www.asyncapi.com/en) can be used in conjunction with your Avro schemas to thoroughly contract test your EDA.
 
 ![Architecture Diagram](avro-sample-architecture.png)
 
