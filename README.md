@@ -4,16 +4,16 @@
 
 ## Overview
 
-This sample demonstrates **contract-first development** for asynchronous microservices communication. It showcases how to implement reliable contract testing using AsyncAPI specifications with Avro Schema Registry integration.
+This project demonstrates **contract-driven development** using your Avro schemas for asynchronous microservices communication. It showcases how AsyncAPI specification can be used in conjunction with your Avro schemas to thoroughly contract test your EDA.
 
 ![Architecture Diagram](avro-sample-architecture.png)
 
-The application demonstrates a typical order processing flow between `checkout-service` and `order-service` communicating through Kafka topics with Avro serialization.
+The diagram covers an order processing flow between `checkout-service` and `order-service` communicating through Kafka topics with Avro serialization for the payloads.
 
 ## Referencing your existing Avro files your schema registry in AsyncAPI spec
 
 The AsyncAPI specification that this application is based on **reuses the Avro schemas by referencing them instead of redefining them again**. 
-This ensures that we have **a single source of truth** for the schemas which is the schemas present in the schema registry.
+This ensures that we have **a single source of truth** for the schemas whic is the schema registry.
 
 ```yaml
 components:
@@ -46,11 +46,10 @@ docker compose pull
 ./gradlew clean test
 ```
 
-You can also run the [contract test](src%2Ftest%2Fkotlin%2Fcom%2Fexample%2Forder%2FContractTest.kt) from your IDE using the play button once you've pull all the required images.
-The contract test makes use of `testcontainers` to set up the environment for testing.
+You can also run the [contract test](src%2Ftest%2Fkotlin%2Fcom%2Fexample%2Forder%2FContractTest.kt) from your IDE (Please run `docker compose pull` before running tests). The contract test makes use of `[testcontainers](https://testcontainers.com/)` to set up test environment.
 
 #### Test Configuration
-The test requires the following properties to be set with the correct values as you can see in the [contract test](src%2Ftest%2Fkotlin%2Fcom%2Fexample%2Forder%2FContractTest.kt).
+We only need to setup below properties in the [contract test](src%2Ftest%2Fkotlin%2Fcom%2Fexample%2Forder%2FContractTest.kt).
 ```properties
 SCHEMA_REGISTRY_URL=http://localhost:8085
 SCHEMA_REGISTRY_KIND=CONFLUENT
@@ -58,6 +57,8 @@ AVAILABLE_SERVERS=localhost:9092
 ```
 
 ### Run Contract Tests using Docker CLI
+
+This will help you understand all the independent components involved in running the app, its dependencies and the contract test itself.
 
 #### Run the application 
 ```bash
@@ -93,11 +94,12 @@ Stop the application by stopping the `./gradle bootRun` process using Ctrl + C
 docker compose down -v
 ```
 
-### What Gets Tested:
-- **Message publishing** to correct topics
+### What all are we testing with Specmatic Contract Test:
+- **Message delivery** to correct topics
 - **Schema compatibility** with registry
 - **Consumer behavior** on message receipt
 - **Error handling** for malformed messages
+- **And more ...**
 
 ## Schema Management
 
@@ -116,24 +118,20 @@ Schemas are automatically registered during test setup via `register-schemas.sh`
 ## Business Impact
 
 ### Development Benefits
-- **Catch integration issues early** - Before they reach production
-- **Reduce debugging time** - Type-safe contracts eliminate guesswork
+- **Catch integration issues early** - Before they reach higher environments
+- **Reduce debugging time** - Eliminate guesswork
 - **Confident deployments** - Automated validation prevents failures
 
 ### Technical Benefits
 - **Schema evolution safety** - Backward compatibility validation
-- **Runtime consistency** - Specs match actual implementation
-- **Automated testing** - No manual contract verification needed
+- **Avoid API-Drift** - Specs match actual implementation
+- **Automated Testing** - No manual contract verification needed, nor do you need to write or maintain any test code
 
 ## Why This Matters
 
-Traditional integration testing often misses **contract compatibility issues** that only surface in production. This approach ensures:
+Traditional integration testing often misses **contract compatibility issues** that only surface in production. Leveraging AsyncAPI spec with Avro schemas for Contract Testing ensures:
 
 1. **Services communicate correctly** - Validated message formats
 2. **Schema changes don't break consumers** - Compatibility testing
 3. **Deployments are safe** - Contract validation in CI/CD
-4. **Documentation stays current** - Living contracts via AsyncAPI
-
----
-
-**Ready to implement contract testing in your microservices?** This sample provides the complete foundation for contract testing with AsyncAPI and Avro Schema Registry.
+4. **Collaboration with ** - Living contracts via AsyncAPI
